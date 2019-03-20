@@ -7,11 +7,12 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigid;
 
     [SerializeField]
-    private float jumpForce = 5.0f;
-
-    // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
+    private float jumpForce;
     [SerializeField]
-    private LayerMask _groundLayer;
+    private float speed;    
+    [SerializeField]
+    // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
+    private LayerMask _groundLayer; 
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +24,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
+        
     }
 
     void PlayerMovement()
     {
         // horizontal input for left/right
         float horizontalInput = Input.GetAxisRaw("Horizontal");
+        // Debug.Log("horizontal: " + horizontalInput);
 
         // If jump key && grounded:
         // current velocity = new velocity (current x, jumpForce);        
@@ -39,7 +41,13 @@ public class Player : MonoBehaviour
         }
 
         // current velocity = new velocity (x = horizontal input, current velocity.y)
-        _rigid.velocity = new Vector2(horizontalInput, _rigid.velocity.y);
+        _rigid.velocity = new Vector2(horizontalInput * speed * Time.fixedDeltaTime, _rigid.velocity.y);
+    }
+
+    // Use FixedUpdate for physics stuff
+    void FixedUpdate()
+    {
+        PlayerMovement();
     }
 
     bool IsGrounded()

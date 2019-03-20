@@ -14,6 +14,9 @@
 # TextMesh Pro files
 [Aa]ssets/TextMesh*Pro/
 
+# AutoSave files
+[Aa]ssets/AutoSave/
+
 # Visual Studio cache directory
 .vs/
 
