@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigid;
 
     [SerializeField]
-    private float jumpForce;
+    private float jumpForce = 0f;
     [SerializeField]
-    private float speed;    
+    private float speed = 0f;
     [SerializeField]
     // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
     private LayerMask _groundLayer; 
