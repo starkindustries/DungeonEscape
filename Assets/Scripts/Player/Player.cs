@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && IsGrounded())
+        if ((CrossPlatformInputManager.GetButtonDown("AButton")) && IsGrounded())
         {
             animator.Attack();
         }
@@ -45,7 +46,7 @@ public class Player : MonoBehaviour
         IsGrounded();
 
         // horizontal input for left/right
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal"); // Input.GetAxisRaw("Horizontal");
         // Debug.Log("horizontal: " + horizontalInput);
 
         // Face correct direction
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour
 
         // If jump key && grounded:
         // current velocity = new velocity (current x, jumpForce);        
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if ((CrossPlatformInputManager.GetButtonDown("BButton")) && IsGrounded())
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
             animator.Jump(true);
