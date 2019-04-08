@@ -14,9 +14,9 @@ public abstract class Enemy : MonoBehaviour
     protected Transform pointA, pointB;
     protected bool facingRight;
 
-    private Vector3 target;
-    private Animator animator;
-    private bool shouldIdle;
+    protected Vector3 target;
+    protected Animator animator;
+    protected bool shouldIdle;
 
     // Start is called before the first frame update
     void Start()
