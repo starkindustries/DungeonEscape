@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
+    // IDamageable
+    public int Health { get; set; }
+
     private Rigidbody2D rb2d;
 
     [SerializeField]
     private float jumpForce = 0f;
-    private float jumpRaycastDistance = 0.8f;
-
+    private float jumpRaycastDistance = 0.9f;
     [SerializeField]
     private float speed = 0f;
     [SerializeField]
@@ -37,16 +39,16 @@ public class Player : MonoBehaviour
         {
             animator.Attack();
         }
-        // Draw the jump detector raycast
-        Debug.DrawRay(transform.position, Vector2.down * jumpRaycastDistance, Color.green);
+        // Debug: Draw the jump detector raycast
+        Debug.DrawRay(transform.position, Vector2.down * jumpRaycastDistance, Color.green);        
     }
 
     void PlayerMovement()
-    {
-        IsGrounded();
-
+    {        
         // horizontal input for left/right
-        float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal"); // Input.GetAxisRaw("Horizontal");
+        float temp1 = CrossPlatformInputManager.GetAxis("Horizontal");
+        float temp2 = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = (Mathf.Abs(temp1) > Mathf.Abs(temp2)) ? temp1 : temp2;
         // Debug.Log("horizontal: " + horizontalInput);
 
         // Face correct direction
@@ -59,9 +61,9 @@ public class Player : MonoBehaviour
             Flip();
         }
 
-        // If jump key && grounded:
-        // current velocity = new velocity (current x, jumpForce);        
-        if ((CrossPlatformInputManager.GetButtonDown("BButton")) && IsGrounded())
+        // Check if player landed
+        bool grounded = IsGrounded(); 
+        if (CrossPlatformInputManager.GetButtonDown("BButton") && grounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
             animator.Jump(true);
@@ -80,11 +82,10 @@ public class Player : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, jumpRaycastDistance, groundLayer.value);
-        // Debug.DrawRay(transform.position, Vector2.down * jumpRaycastDistance, Color.green);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, jumpRaycastDistance, groundLayer.value);        
         if (hitInfo.collider != null)
         {
-            Debug.Log("hit: " + hitInfo.collider.name);
+            Debug.Log("Grounded on: " + hitInfo.collider.name);
             animator.Jump(false);
             return true;
         }
@@ -101,5 +102,10 @@ public class Player : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    public void Damage()
+    {
+        Debug.Log("Player damaged!");
     }
 }

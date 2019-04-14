@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Skeleton : Enemy
 {
-    
+    public override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
 }
