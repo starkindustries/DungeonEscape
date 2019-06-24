@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
-    private Player player;
     private Text gemCountText;
     [SerializeField]
     private GameObject lifeUnit1; // left most
@@ -16,21 +15,40 @@ public class HUDManager : MonoBehaviour
     [SerializeField]
     private GameObject lifeUnit4; // right most
 
+    #region Singleton Patter
+    //*****************
+    // Singleton pattern
+    // https://gamedev.stackexchange.com/a/116010/123894
+    private static HUDManager _instance;
+    public static HUDManager Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        // Singleton Enforcement Code
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
         gemCountText = GetComponentInChildren<Text>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateGemCount(int gemCount)
     {
-        gemCountText.text = player.gemCount.ToString();
-        UpdateLifeBar(player.Health);
+        gemCountText.text = gemCount.ToString();
     }
 
-    void UpdateLifeBar(int playerHealth)
+    public void UpdateLifeBar(int playerHealth)
     {
         if (playerHealth == 4)
         {
@@ -60,7 +78,7 @@ public class HUDManager : MonoBehaviour
             lifeUnit3.SetActive(false);
             lifeUnit4.SetActive(false);
         }
-        else if (playerHealth == 0)
+        else if (playerHealth <= 0)
         {
             lifeUnit1.SetActive(false);
             lifeUnit2.SetActive(false);

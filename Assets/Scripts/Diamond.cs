@@ -12,9 +12,9 @@ public class Diamond : MonoBehaviour
         Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (other.gameObject.tag == player.tag)
         {
-            player.gemCount++;
+            player.PickupDiamond();
             Destroy(this.gameObject);
-            Debug.Log("Diamond trigger3, player gem count: " + player.gemCount);
+            Debug.Log("Diamond trigger3, player gem count: " + player.GetGemCount());
         }
     }
 }

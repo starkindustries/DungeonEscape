@@ -29,7 +29,7 @@ public class ShopPanel : MonoBehaviour
     public void SetBuyer(Player currentPlayer)
     {
         buyer = currentPlayer;
-        playerGemCountText.text = buyer.gemCount.ToString() + "G";
+        playerGemCountText.text = buyer.GetGemCount() + "G";
     }   
 
     public void DidSelectItem(int item)
@@ -51,7 +51,7 @@ public class ShopPanel : MonoBehaviour
         }
 
         // Check if player has enough gems
-        if (prices[selectedItem.Value] > buyer.gemCount)
+        if (prices[selectedItem.Value] > buyer.GetGemCount())
         {
             // Player does not have enough gems
             Debug.Log("ShopKeeper: Not enough gems for " + itemDescriptions[selectedItem.Value] + " " + prices[selectedItem.Value] + "G");
@@ -60,8 +60,8 @@ public class ShopPanel : MonoBehaviour
 
         // else: Player has enough gems! 
         // Subtract gems in order to make the purchase!
-        buyer.gemCount -= prices[selectedItem.Value];
-        playerGemCountText.text = buyer.gemCount.ToString() + "G";
+        buyer.Purchase(item: itemDescriptions[selectedItem.Value], price: prices[selectedItem.Value]);        
+        playerGemCountText.text = buyer.GetGemCount() + "G";
 
         if (selectedItem == 2) // castle key
         {

@@ -6,23 +6,23 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour, IDamageable
 {
     // IDamageable
-    public int Health { get; set; }
-    public int gemCount = 0;
+    public int Health { get; set; }       
 
-    private Rigidbody2D rb2d;
-
+    [SerializeField]
+    private int gemCount = 0;
     [SerializeField]
     private int health;
     [SerializeField]
-    private float jumpForce = 0f;
-    private float jumpRaycastDistance = 0.9f;
+    private float jumpForce = 0f;    
     [SerializeField]
     private float speed = 0f;
-    [SerializeField] 
+    [SerializeField]
     private LayerMask groundLayer; // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
-    private PlayerAnimation animator;
-    // private SpriteRenderer playerSprite;
 
+    private PlayerAnimation animator;
+    private Rigidbody2D rb2d;
+
+    private float jumpRaycastDistance = 0.9f;
     private bool facingRight;
     private bool isDead;
 
@@ -112,7 +112,9 @@ public class Player : MonoBehaviour, IDamageable
     {
         Debug.Log("Player damaged!");
         Health--;
-        
+
+        HUDManager.Instance.UpdateLifeBar(Health);
+
         // Check if player is dead
         if(isDead)
         {
@@ -129,5 +131,23 @@ public class Player : MonoBehaviour, IDamageable
         // Player is not dead and health is 0!
         isDead = true;
         animator.Die();        
+    }
+
+    public void PickupDiamond()
+    {
+        gemCount++;
+        HUDManager.Instance.UpdateGemCount(gemCount);
+    }
+
+    public void Purchase(string item, int price)
+    {
+        Debug.Log("Player purchased " + item + " for " + price + "G");
+        gemCount -= price;
+        HUDManager.Instance.UpdateGemCount(gemCount);
+    }
+
+    public int GetGemCount()
+    {
+        return gemCount;
     }
 }
