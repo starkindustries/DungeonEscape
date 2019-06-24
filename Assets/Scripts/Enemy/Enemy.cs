@@ -170,7 +170,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             // Spawn the gems on death!
             for(int i=0; i < this.gems; i++)
             {
-                Instantiate(diamondPrefab, transform.position, Quaternion.identity);
+                GameObject diamond = Instantiate(diamondPrefab, transform.position, Quaternion.identity);
+                diamond.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
             }            
         }
         else
