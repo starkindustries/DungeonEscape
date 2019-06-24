@@ -6,8 +6,8 @@ public class Diamond : MonoBehaviour
 {    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Diamond trigger1: " + other.gameObject.tag);
-        Debug.Log("Diamond trigger2: " + GameObject.FindWithTag("Player").tag);
+        Debug.Log("Diamond triggered by: " + other.gameObject.name);
+        Debug.Log("Diamond position: " + this.gameObject.transform.position.ToString());
 
         Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (other.gameObject.tag == player.tag)
