@@ -15,7 +15,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected int gems;
     [SerializeField]
     protected Transform pointA, pointB;
-    
+    [SerializeField]
+    protected GameObject diamondPrefab;
+
     protected Vector3 target;
     protected Animator animator;
     protected bool facingRight;
@@ -164,7 +166,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             Debug.Log("DESTROY!");                        
             animator.SetTrigger("Death");
             isDead = true;
-            // Destroy(this.gameObject);
+
+            // Spawn the gems on death!
+            for(int i=0; i < this.gems; i++)
+            {
+                Instantiate(diamondPrefab, transform.position, Quaternion.identity);
+            }            
         }
         else
         {

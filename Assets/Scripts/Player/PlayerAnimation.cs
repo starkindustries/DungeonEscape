@@ -27,6 +27,7 @@ public class PlayerAnimation : MonoBehaviour
     public void Attack()
     {
         animator.SetTrigger("Attack");
-        swordAnimator.SetTrigger("SwordAnimation");
+        // Sword arc:
+        // swordAnimator.SetTrigger("SwordAnimation");
     }
 }

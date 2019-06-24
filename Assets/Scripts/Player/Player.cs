@@ -7,17 +7,19 @@ public class Player : MonoBehaviour, IDamageable
 {
     // IDamageable
     public int Health { get; set; }
+    public int gemCount = 0;
 
     private Rigidbody2D rb2d;
 
+    [SerializeField]
+    private int health;
     [SerializeField]
     private float jumpForce = 0f;
     private float jumpRaycastDistance = 0.9f;
     [SerializeField]
     private float speed = 0f;
-    [SerializeField]
-    // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
-    private LayerMask groundLayer;
+    [SerializeField] 
+    private LayerMask groundLayer; // Note that layerMask is just a 32 bit integer. There are a max of 32 layer slots.
     private PlayerAnimation animator;
     // private SpriteRenderer playerSprite;
 
@@ -26,10 +28,9 @@ public class Player : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Start()
     {
-        // Assign handle to rigid body
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<PlayerAnimation>();
-        // playerSprite = GetComponentInChildren<SpriteRenderer>();
+        Health = health;
     }
 
     // Update is called once per frame
@@ -107,5 +108,6 @@ public class Player : MonoBehaviour, IDamageable
     public void Damage()
     {
         Debug.Log("Player damaged!");
+        Health--;
     }
 }
