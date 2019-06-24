@@ -11,12 +11,12 @@ public class ShopPanel : MonoBehaviour
     [SerializeField]
     private Image selectionImage;
 
-    // Data Variables
-    private int playerGemCount;
+    // Data Variables    
     private int[] yPos;
     private int[] prices;
     private string[] itemDescriptions;
     private int? selectedItem = null;
+    private Player buyer;
 
     public void Start()
     {
@@ -26,10 +26,10 @@ public class ShopPanel : MonoBehaviour
         selectionImage.enabled = false;
     }
 
-    public void SetPlayerGemCount(int gemCount)
+    public void SetBuyer(Player currentPlayer)
     {
-        playerGemCount = gemCount;
-        playerGemCountText.text = gemCount.ToString() + "G";
+        buyer = currentPlayer;
+        playerGemCountText.text = buyer.gemCount.ToString() + "G";
     }   
 
     public void DidSelectItem(int item)
@@ -43,29 +43,30 @@ public class ShopPanel : MonoBehaviour
 
     public void DidPressBuyButton()
     {
+        // Check if an item was selected
         if (selectedItem == null)
         {
             Debug.Log("Buy button: No item selected.");
             return;
         }
-        /* stopped here
-        if(selectedItem == 2) // castle key
-        {
 
-        }
-        else if (selectedItem >= 0 && selectedItem < 3) // 0 is Flame sword, 1 is Flight boots, 2 is Castle keys
+        // Check if player has enough gems
+        if (prices[selectedItem.Value] > buyer.gemCount)
         {
-            // Check if player has enough gems
-            if (prices[selectedItem.Value] <= playerGemCount)
-            {
-                // Player has enough gems!
-                Debug.Log("You bought: " + itemDescriptions[selectedItem.Value]);
-            }
-            else
-            {
-                // Player does not have enough gems
-                Debug.Log("Buy button: not enough gems for: " + itemDescriptions[selectedItem.Value] + " " + prices[selectedItem.Value] + "G");
-            }
-        }*/
+            // Player does not have enough gems
+            Debug.Log("ShopKeeper: Not enough gems for " + itemDescriptions[selectedItem.Value] + " " + prices[selectedItem.Value] + "G");
+            return;
+        }
+
+        // else: Player has enough gems! 
+        // Subtract gems in order to make the purchase!
+        buyer.gemCount -= prices[selectedItem.Value];
+        playerGemCountText.text = buyer.gemCount.ToString() + "G";
+
+        if (selectedItem == 2) // castle key
+        {
+            Debug.Log("ShopKeeper: here is the castle key!");
+            GameManager.Instance.hasKeyToCastle = true;
+        }
     }
 }

@@ -13,7 +13,7 @@ public class ShopKeeper : MonoBehaviour
         {
             shopPanel.SetActive(true);
             ShopPanel panel = shopPanel.GetComponent<ShopPanel>();
-            panel.SetPlayerGemCount(gemCount: other.gameObject.GetComponent<Player>().gemCount);
+            panel.SetBuyer(currentPlayer: other.gameObject.GetComponent<Player>());
         }
     }
 

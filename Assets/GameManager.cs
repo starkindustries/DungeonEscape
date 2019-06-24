@@ -26,5 +26,5 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public bool hasKeyToCastyle { get; set; }
+    public bool hasKeyToCastle { get; set; }
 }

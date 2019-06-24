@@ -86,7 +86,7 @@ public class Player : MonoBehaviour, IDamageable
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, jumpRaycastDistance, groundLayer.value);        
         if (hitInfo.collider != null)
         {
-            Debug.Log("Grounded on: " + hitInfo.collider.name);
+            // Debug.Log("Grounded on: " + hitInfo.collider.name);
             animator.Jump(false);
             return true;
         }
