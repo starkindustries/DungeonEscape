@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
 
 public class ShopPanel : MonoBehaviour
 {
@@ -67,6 +68,35 @@ public class ShopPanel : MonoBehaviour
         {
             Debug.Log("ShopKeeper: here is the castle key!");
             GameManager.Instance.hasKeyToCastle = true;
+        }
+    }
+
+    public void DidPressAdsButton()
+    {
+        var showOptions = new ShowOptions
+        {
+            resultCallback = HandleAdResult
+        };
+        AdsManager.ShowRewardedAd(showOptions: showOptions);
+    }
+
+    private void HandleAdResult(ShowResult result)
+    {
+        switch (result)
+        {
+            case ShowResult.Finished:
+                Debug.Log("WOOT 100G!!");
+                // Add the gems to the player's inventory
+                buyer.AddGems(amount: 100);
+                // Update the shop panel's player gem count UI
+                playerGemCountText.text = buyer.GetGemCount() + "G";                                
+                break;
+            case ShowResult.Failed:
+                Debug.Log("Ad failed. Please check your data connection and try again.");
+                break;
+            case ShowResult.Skipped:
+                Debug.Log("You skipped the ad. Complete the ad to get gems.");
+                break;
         }
     }
 }

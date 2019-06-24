@@ -139,6 +139,12 @@ public class Player : MonoBehaviour, IDamageable
         HUDManager.Instance.UpdateGemCount(gemCount);
     }
 
+    public void AddGems(int amount)
+    {
+        gemCount += amount;
+        HUDManager.Instance.UpdateGemCount(gemCount);
+    }
+
     public void Purchase(string item, int price)
     {
         Debug.Log("Player purchased " + item + " for " + price + "G");
