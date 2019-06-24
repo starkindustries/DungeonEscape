@@ -23,7 +23,8 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerAnimation animator;
     // private SpriteRenderer playerSprite;
 
-    private bool facingRight = true;
+    private bool facingRight;
+    private bool isDead;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour, IDamageable
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<PlayerAnimation>();
         Health = health;
+        facingRight = true;
+        isDead = false;
     }
 
     // Update is called once per frame
@@ -109,5 +112,22 @@ public class Player : MonoBehaviour, IDamageable
     {
         Debug.Log("Player damaged!");
         Health--;
+        
+        // Check if player is dead
+        if(isDead)
+        {
+            return;
+        }
+
+        // Player is not dead. Check health
+        if(Health > 0)
+        {
+            animator.Hit();
+            return;
+        }
+
+        // Player is not dead and health is 0!
+        isDead = true;
+        animator.Die();        
     }
 }

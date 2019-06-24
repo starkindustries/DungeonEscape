@@ -30,4 +30,14 @@ public class PlayerAnimation : MonoBehaviour
         // Sword arc:
         // swordAnimator.SetTrigger("SwordAnimation");
     }
+
+    public void Die()
+    {
+        animator.SetTrigger("Death");
+    }
+
+    public void Hit()
+    {
+        animator.SetTrigger("Hit");
+    }
 }
